@@ -21,14 +21,20 @@ object DatabaseFactory {
     }
 
     private fun hikari(): HikariDataSource {
+        val driver = "org.postgresql.Driver"
+        val jdbcUrl = "jdbc:postgresql:notes_db?user=postgres&password=wizcoderr@23"
+
+        println("JDBC_DRIVER: $driver")
+        println("JDBC_DATABASE_URL: $jdbcUrl")
+
         val config = HikariConfig()
-        config.driverClassName = System.getenv("JDBC_DRIVER")
-        config.jdbcUrl = System.getenv("JDBC_DATABASE_URL")
+        config.driverClassName = driver ?: throw IllegalStateException("JDBC_DRIVER is not set")
+        config.jdbcUrl = jdbcUrl ?: throw IllegalStateException("JDBC_DATABASE_URL is not set")
         config.maximumPoolSize = 3
         config.isAutoCommit = false
         config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
-        config.validate()
 
+        config.validate()
         return HikariDataSource(config)
     }
 

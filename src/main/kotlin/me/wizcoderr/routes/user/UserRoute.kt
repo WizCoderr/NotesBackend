@@ -31,12 +31,7 @@ fun Route.userRoute(
     hashfunction: (String) -> String
 ) {
      post("/user/register") {
-        val registerRequest = try {
-            call.receive<RegisterRequest>()
-        }catch (e:Exception){
-            call.respond(HttpStatusCode.BadRequest,MainResponse(success=false,message="Username or email can't be empty"))
-            return@post
-        }
+        val registerRequest =call.receive<RegisterRequest>()
 
         try {
             val user= User(registerRequest.name,registerRequest.email,hashfunction(registerRequest.password))
@@ -62,7 +57,7 @@ fun Route.userRoute(
                 call.respond(HttpStatusCode.BadRequest,MainResponse(success=false,message="User not found please register first."))
 
             }else{
-                if(user.password != hashPassword(loginRequest.password)){
+                if(user.password == hashfunction(loginRequest.password)){
                     call.respond(HttpStatusCode.OK,MainResponse(success=true,message="Token=${jwtService.generateToken(user)}"))
                 }else{
                     call.respond(HttpStatusCode.BadRequest,MainResponse(success=false,message="Password is incorrect"))

@@ -15,9 +15,8 @@ import org.jetbrains.exposed.sql.uintParam
 
 fun Route.notesRoutes(
     db:Repo,
-    hashFunction:(String)->String
 ) {
-   authenticate("jwt") {
+    authenticate("jwt") {
        post("/notes/add") {
            val note = try {
                call.receive<Note>()
@@ -31,7 +30,7 @@ fun Route.notesRoutes(
                db.insertNote(note,email)
                call.respond(HttpStatusCode.OK,MainResponse(true,"Note added successfully!"))
            }catch (ex:Exception){
-               call.respond(HttpStatusCode.BadRequest,MainResponse(false,ex.message?:"Error"))
+               call.respond(HttpStatusCode.BadRequest,MainResponse(false,ex.message!!))
            }
        }
 

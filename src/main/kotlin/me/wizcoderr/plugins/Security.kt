@@ -20,6 +20,21 @@ fun Application.configureSecurity(jwtService: JWTService) {
         }
     }
 
+    install(Authentication) {
+        jwt("jwt") {
+            verifier(jwtService.verifier)
+            validate { credential ->
+                validate { credential ->
+                    if (credential.payload.getClaim("email").asString() != null) {
+                        Repo().findUserByEmail(credential.payload.getClaim("email").asString())
+                        JWTPrincipal(credential.payload)
+                    } else {
+                        null
+                    }
+                }
+            }
+        }
+    }
     // Configure JWT Authentication
     authentication {
         jwt {

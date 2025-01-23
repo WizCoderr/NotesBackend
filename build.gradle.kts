@@ -42,12 +42,12 @@ dependencies {
     implementation("io.ktor:ktor-serialization-gson-jvm")
     implementation("io.ktor:ktor-server-netty-jvm")
     implementation("ch.qos.logback:logback-classic:$logback_version")
-
+    implementation("io.ktor:ktor-server-call-logging")
 
     implementation("io.ktor:ktor-server-config-yaml-jvm")
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
-
+    implementation("io.ktor:ktor-server-content-negotiation:")
     implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")

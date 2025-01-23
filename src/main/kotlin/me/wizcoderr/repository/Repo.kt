@@ -32,7 +32,6 @@ class Repo {
     suspend fun insertNote(note: Note,email: String) {
         dbQuery {
             NoteTable.insert {
-                it[id] = note.id
                 it[userEmail] = email
                 it[noteTitle] = note.noteTitle
                 it[noteDescription] = note.noteDescription
